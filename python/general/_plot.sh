@@ -1,0 +1,7 @@
+root -b -q -l '../DrawHistoFromFile.C+("AllFlights_but6.root")'
+root -b -q -l '../DrawHistoFromFile.C+("AllFlights.root")'
+root -b -q -l '../DrawHistoFromFile.C+("BgHomeMerged51h.root")'
+root -b -q -l '../DrawHistoFromFile.C+("BgOffMerged154100s_42.8h.root")'
+root -b -q -l '../DrawHistoFromFile.C+("BgOffMerged190967s_47h.root")'
+root -b -q -l '../DrawHistoFromFile.C+("gammaShell11071s.root")'
+root -b -q -l '../DrawHistoFromFile.C+("Let2to5.root")'
