@@ -15,6 +15,8 @@ stuff = []
 
 # see $PYTHONPATH
 
+from dose_tools import *
+
 from mystyle import *
 
 
@@ -34,7 +36,10 @@ def main(argv):
     can = ROOT.TCanvas(cname, cname, 0, 0, 1100, 1000)
     h.SetStats(0)
     I = h.Integral()
-    h.SetTitle('E={:1.0f} MeV;;;E [keV]'.format(I/1000.))
+    time = 458*10
+    d = GetDose(I, time)
+    
+    h.SetTitle('E={:1.0f} MeV d={} mGy/Y;;;E [keV]'.format(I/1000., d))
     h.Draw('colz')
     ROOT.gPad.SetLogz(1)
     ROOT.gPad.SetRightMargin(0.15)
