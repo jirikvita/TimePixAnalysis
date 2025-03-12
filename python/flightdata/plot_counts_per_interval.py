@@ -36,7 +36,7 @@ datax = []
 datay = []
 for line in infile.readlines():
     data = line[:-1].split()
-    print data
+    print(data)
     if len(data) == 0:
         continue
     datax.append(float(data[0]))
@@ -47,7 +47,7 @@ gr.SetName('Counts')
 
 ip = 0
 for x,y in zip(datax,datay,):
-    print x,y
+    print(x,y)
     gr.SetPoint(ip, x, y)
     err = 0.
     if y > 0:

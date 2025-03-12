@@ -28,7 +28,7 @@ def makefloat(value):
 def MakeTime(stime):
     # example: 'Tue Jan 29 14:10:41.061217 2019'
     time = 0.
-    print 'Making time from {}'.format(stime)
+    print('Making time from {}'.format(stime))
     timestr = stime.split()[3]
     ic = 0
     for item in timestr.split(':'):

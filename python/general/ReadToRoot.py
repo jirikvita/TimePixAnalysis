@@ -7,15 +7,15 @@ import os, sys
 import ROOT
 
 args = sys.argv
-print args
+print(args)
 
 if len (args) < 2:
-    print 'Usage %s file.txt' %(args[0],)
+    print('Usage %s file.txt' %(args[0],))
     exit(1)
 
 fname = args[1]
 
-infile = file(fname, 'r')
+infile = open(fname, 'r')
 
 basename = fname.replace('.txt', '')
 rname = fname.replace('.txt', '.root')
@@ -31,11 +31,11 @@ for line in infile.readlines():
     elements = line.split()
     j = 0
     for element in elements:
-        histo.SetBinContent(j+1, i+1, ROOT.Double(element))
+        histo.SetBinContent(j+1, i+1, float(element))
         j=j+1
     i=i+1
 
-print 'Writing histogram to %s' % (rname,)
+print('Writing histogram to %s' % (rname,))
 
 rfile.Write()
 rfile.Close()

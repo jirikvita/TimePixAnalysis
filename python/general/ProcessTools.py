@@ -134,10 +134,10 @@ def RemoveSpikes(hist, bgthr=0.2, maskWithAver = True, debug = 0):
             if val > 0:
                 if averAround / val < bgthr:
                     if maskWithAver:
-                        if debug: print 'masking spike %f at %i,%i with aver=%f' % (val,ii,jj,averAround)
+                        if debug: print('masking spike %f at %i,%i with aver=%f' % (val,ii,jj,averAround))
                         newhist.SetBinContent(ii,jj,averAround)
                     else:
-                        if debug: print 'removing spike %f at %i,%i aver=%f' % (val,ii,jj,averAround)
+                        if debug: print('removing spike %f at %i,%i aver=%f' % (val,ii,jj,averAround))
                         newhist.SetBinContent(ii,jj,0.)
                 else:
                     newhist.SetBinContent(ii,jj,val)
@@ -317,7 +317,7 @@ def InvHoughTransf(hough, absthr = 60.):
     hist = ROOT.TH2D(hough.GetName() + '_inv_hough', 'Hough inverse transfromed;x;y;', maxN, 0, maxN, maxN, 0, maxN)
     # loop over spikes:
     spikeList = FindMaximaOverAbsThr(hough,absthr)
-    print '  spikes list: ', spikeList
+    print('  spikes list: ', spikeList)
     nlines = len(spikeList)
     for spike in spikeList:
         theta = spike[0]
@@ -344,7 +344,7 @@ def MakeListFromGraph(gr):
     spikeList = []
     x = ROOT.Double(0.)
     y = ROOT.Double(0.)
-    for i in xrange(0,gr.GetN()):
+    for i in range(0,gr.GetN()):
         gr.GetPoint(i, x, y)
         llist = [y, -1, -1.]
         spikeList.append(llist)

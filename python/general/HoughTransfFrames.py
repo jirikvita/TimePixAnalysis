@@ -50,8 +50,8 @@ for lpath in Paths:
     
     #for path in Paths[2:2]:
 
-    print '===> Processing path {}'.format(path,)
-    print '     fullpath: {}'.format(fullpath,)
+    print('===> Processing path {}'.format(path,))
+    print('     fullpath: {}'.format(fullpath,))
 
     gROOT.SetBatch(1)
 
@@ -80,7 +80,7 @@ for lpath in Paths:
         #    break
         #print fname
         fullname = '{}{}'.format(fullpath,fname)
-        print 'Opening {}'.format(fullname)
+        print('Opening {}'.format(fullname))
         rfile = TFile(fullname, 'update')
         # rfile = TFile(fullname, 'read')
         Files.append(rfile)
@@ -90,10 +90,10 @@ for lpath in Paths:
         grMulti.SetPoint(nf, nf, NnonZero)
 
         if NnonZero > 1000.:
-            print 'WARNING: Skipping histo due to high occupancy!'
+            print('WARNING: Skipping histo due to high occupancy!')
             continue
         if NnonZero < 100.:
-            print 'WARNING: Skipping histo due to low occupancy!'
+            print('WARNING: Skipping histo due to low occupancy!')
             continue
         Nframes = Nframes+1
 
@@ -102,21 +102,21 @@ for lpath in Paths:
         #print 'Performing transform of {}'.format(hist.GetName(),)
         rfile.cd()
         
-        print 'Trying to get Hough-transformed histo from file...'
+        print('Trying to get Hough-transformed histo from file...')
         try:
             hough = rfile.Get('histo_hough') 
             n = hough.GetEntries()
             #except:
         except:
             #ReferenceError or AttributeError:
-            print '   ...failed, performing the transform now...'
+            print('   ...failed, performing the transform now...')
             hough = HoughTransf(hist)
             hough.Write()
 
 
         # TODO!
         # get also the lines
-        print 'Trying to get the lines list from file...'
+        print('Trying to get the lines list from file...')
         try:
             grTheta = rfile.Get('gr_theta')
             nlines = grTheta.GetN()
@@ -126,7 +126,7 @@ for lpath in Paths:
             #except:
         except:
             #ReferenceError or AttributeError:
-            print '   ...failed, performing inverse transform of {}'.format(hough.GetName())
+            print('   ...failed, performing inverse transform of {}'.format(hough.GetName()))
             spikeList,inv = InvHoughTransf(hough)
             nlines = len(spikeList)
             grTheta = MakeGraph(spikeList, 'gr_theta', 0)
@@ -146,7 +146,7 @@ for lpath in Paths:
             # filling only the strongest line!!!
             htheta.Fill(abs(spikeList[0][0]))
             if Draw:
-                print 'Drawing... nlines={:}'.format(nlines,)
+                print('Drawing... nlines={:}'.format(nlines,))
                 canname = 'HoughTest' + path
                 canname = canname.replace('/', '_')
                 canname = canname +'_{:}'.format(j,)
@@ -176,7 +176,7 @@ for lpath in Paths:
 
 
         else:
-            print '   ...no line found, not bothering printing png...'
+            print('   ...no line found, not bothering printing png...')
         j=j+1
         rfile.Write()
         rfile.Close()

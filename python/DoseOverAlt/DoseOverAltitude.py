@@ -3,7 +3,7 @@
 # 23.5.2019: median! ;-)
 # TODO: plot GPS height from logs as function of time! Remove some more outliars?!
 
-from __future__ import print_function
+
 
 import numpy as np
 

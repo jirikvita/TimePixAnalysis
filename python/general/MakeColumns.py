@@ -8,7 +8,7 @@ inputs = ['rate', 'etot', 'sizes', 'ene' ]
 
 for input in inputs:
     ncolumns = int(os.popen('cat %s.txt | wc -l' % (input,)).readline()[:-1])
-    print ncolumns
+    print(ncolumns)
     Lines = []
     infile = open('%s.txt' % (input,), 'r')
     for line in infile.readlines():
@@ -18,10 +18,10 @@ for input in inputs:
         for n in nnline:
             nnnline.append(int(n))
         Lines.append(nnnline)
-    print Lines
+    print(Lines)
     outfilename = input + '_trans.txt'
     outfile = open(outfilename, 'w')
-    print 'Writing transposed into a fil %s' % (outfilename,)
+    print('Writing transposed into a fil %s' % (outfilename,))
     for i in range(0,len(Lines[0])):
         for j in range(0,ncolumns):
             if j < ncolumns-1:

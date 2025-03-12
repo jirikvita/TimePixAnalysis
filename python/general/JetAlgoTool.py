@@ -34,14 +34,14 @@ def makeListFromHisto(hist, thr = 50., thr2=50., d=2, nmin = 6):
 class pitem:
     # massless initializer:
     def __init__(self, E, eta, phi):
-        if debug > 1: print 'MassLess E,eta,phi ', E, eta, phi
+        if debug > 1: print('MassLess E,eta,phi ', E, eta, phi)
         self.eta = eta
         self.phi = phi
         # massless:
         self.E = E
 
     def Print(self):
-        print '  E,eta,phi ', self.E, self.eta, self.phi
+        print('  E,eta,phi ', self.E, self.eta, self.phi)
 
 ###############################################
 def combine(it1, it2):
@@ -100,7 +100,7 @@ def RunJetAlgo(pList, R = 5, p = -1.):
     ipass = -1
     while len(pList) > 0:
         ipass = ipass+1
-        if ipass % 100 == 0: print '=== iteration %i ===' % (ipass,)
+        if ipass % 100 == 0: print('=== iteration %i ===' % (ipass,))
         if debug > 1:
             for particle in pList:
                 particle.Print()
@@ -121,7 +121,7 @@ def RunJetAlgo(pList, R = 5, p = -1.):
             newitem = combine(pList[distances[imind][0]], pList[distances[imind][1]])
             indices = [distances[imind][0], distances[imind][1] ]
             for index in sorted(indices, reverse=True):
-                if debug: print 'deleting item ', index
+                if debug: print('deleting item ', index)
                 del pList[index]
             pList.append(newitem)
     
@@ -165,9 +165,9 @@ hist0 = rfile.Get('histo')
 #hist0 = rfile.Get('alfa')
 
 for p in ps:
-    print '--- processig p=%1.1f ---' % (p,)
+    print('--- processig p=%1.1f ---' % (p,))
     for R in Rs:
-        print '--- processig R=%1.1f ---' % (R,)
+        print('--- processig R=%1.1f ---' % (R,))
         # generate same jets in event:
         hist = RemoveSpikes(hist0) 
         pList = makeListFromHisto(hist)
@@ -201,10 +201,10 @@ for p in ps:
 
 
         hist.Draw('colz')
-        print '============================================='
-        print '                  RESULTS                    '
-        print '============================================='
-        print '===> %i jets found:' % (len(Jets),)
+        print('=============================================')
+        print('                  RESULTS                    ')
+        print('=============================================')
+        print('===> %i jets found:' % (len(Jets),))
 
         canname = 'EhistCan'
         can = nextCan.nextTCanvas(canname, canname, 0, 0, 800, 800)
@@ -240,7 +240,7 @@ for p in ps:
             circ.Draw()
             cirs.append(circ)
 
-        print 'Energy mean: %1.3f' % (Ehist.GetMean(),)
+        print('Energy mean: %1.3f' % (Ehist.GetMean(),))
         ROOT.gPad.SetGridx() ; ROOT.gPad.SetGridy()
 
 

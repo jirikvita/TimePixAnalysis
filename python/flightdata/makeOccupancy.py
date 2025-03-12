@@ -11,7 +11,7 @@ sdirs = ['FrkGvaJan2019/', 'PrgFrkJan2019/', 'ZurPrgFeb2019/', 'GvaZurFeb2019/']
 ###################################
 
 for sdir in sdirs:
-    print 'Working on {}'.format(sdir,)
+    print('Working on {}'.format(sdir,))
     for tfile in os.popen('cd {} ; ls *.txt'.format(sdir)):
         txt = tfile[:-1]
         txtfile = open(sdir + txt, 'read')

@@ -16,7 +16,7 @@ fits = []
 def ReadTimePixRateData(dirname, ftag, offset):
     data = []
     ratefilename = '{}/xls/rate.txt'.format(dirname)
-    print 'Will read timepix rate data from {}'.format(ratefilename)
+    print('Will read timepix rate data from {}'.format(ratefilename))
     ratefile = open(ratefilename, 'read')
     for rawline in ratefile.readlines():
         line = rawline[:-1]
@@ -31,7 +31,7 @@ def ReadTimePixRateData(dirname, ftag, offset):
         data.append([iframe, rate])
 
     ratefile.close()
-    print '...read {} lines!'.format(len(data))
+    print('...read {} lines!'.format(len(data)))
     return data
 
 
@@ -41,14 +41,14 @@ def ReadTimePixTimeData(quantity, dirname, ftag, offset, debug = 0):
     data = []
     for line in os.popen('cd {} ; ls {}*.{}'.format(dirname,ftag, quantity)).readlines():
         fname = line[:-1]
-        if debug: print 'working on {}'.format(fname)
+        if debug: print('working on {}'.format(fname))
         infile = open(dirname + '/' + fname,'read')
         sval = infile.readline()
         val = makefloat(sval)
         infile.close()
 
         fname = fname.replace('.' + quantity,'.time')
-        if debug: print 'working on {}'.format(fname)
+        if debug: print('working on {}'.format(fname))
         infile = open(dirname + '/' + fname,'read')
         stime = infile.readline()
         time = MakeTime(stime) + offset
@@ -118,7 +118,7 @@ def MainCall(flightTag, offset_geiger):
     i = 0.
     for line in infile.readlines():
         data = line[:-1].split()
-        print data
+        print(data)
         if len(data) == 0:
             continue
         datax.append(float(data[0]))
@@ -128,12 +128,12 @@ def MainCall(flightTag, offset_geiger):
         i = i + 1
 
 
-    print '*** TimePix rate data'
-    print tpxRatedata
-    print '*** TimePix E data'
-    print tpxEdata
-    print '*** Geiger data'
-    print geigerdata
+    print('*** TimePix rate data')
+    print(tpxRatedata)
+    print('*** TimePix E data')
+    print(tpxEdata)
+    print('*** Geiger data')
+    print(geigerdata)
 
     gr = TGraphErrors()
     gr.SetName('Counts')
@@ -189,7 +189,7 @@ def MainCall(flightTag, offset_geiger):
     # E = N*eAver
     # eE = sqrt(N)*eAver = E / sqrt(N)
     
-    for i in xrange(0, len(tpxEdata)):
+    for i in range(0, len(tpxEdata)):
         val_tpxE = tpxEdata[i][0] / 1000. # conversion to MeV!
         val_tpxOcc = tpxOccdata[i][0]
         val_tpxRate = tpxRatedata[i][1]
@@ -203,19 +203,19 @@ def MainCall(flightTag, offset_geiger):
         if val_tpxOcc > 0:
             tpxOccErr = sqrt(1.*val_tpxOcc)
 
-        print 'Setting point {} of E vs Rate to {} {}'.format(i, val_tpxRate, val_tpxE)
+        print('Setting point {} of E vs Rate to {} {}'.format(i, val_tpxRate, val_tpxE))
         gr_tpxE_vs_tpxRate.SetPoint(i, val_tpxRate, val_tpxE)
         gr_tpxE_vs_tpxRate.SetPointError(i, tpxRateErr, tpxEerr)
 
-        print 'Setting point {} of E vs Occ to {} {}'.format(i, val_tpxOcc, val_tpxE)
+        print('Setting point {} of E vs Occ to {} {}'.format(i, val_tpxOcc, val_tpxE))
         gr_tpxE_vs_tpxOcc.SetPoint(i, val_tpxOcc, val_tpxE)
         gr_tpxE_vs_tpxOcc.SetPointError(i, tpxOccErr, tpxEerr)
 
-        print 'Setting point {} of E vs iframe to {} {}'.format(i, i+1, val_tpxE)
+        print('Setting point {} of E vs iframe to {} {}'.format(i, i+1, val_tpxE))
         gr_tpxE_vs_iframe.SetPoint(i, i+1, val_tpxE)
         gr_tpxE_vs_iframe.SetPointError(i, 0, tpxEerr)
 
-        print 'Setting point {} of Rate vs iframe to {} {}'.format(i, i+1, val_tpxRate)
+        print('Setting point {} of Rate vs iframe to {} {}'.format(i, i+1, val_tpxRate))
         gr_tpxRate_vs_iframe.SetPoint(i, i+1, val_tpxRate)
         gr_tpxRate_vs_iframe.SetPointError(i, 0, tpxRateErr)
 
@@ -223,7 +223,7 @@ def MainCall(flightTag, offset_geiger):
     itpx = 0
     igei = 0
     ip2 = 0
-    for i in xrange(0, max(len(geigerdata),len(tpxEdata)) ):
+    for i in range(0, max(len(geigerdata),len(tpxEdata)) ):
 
         if itpx >= len(tpxEdata):
             break
@@ -242,17 +242,17 @@ def MainCall(flightTag, offset_geiger):
         if val_tpxE > 0:
             tpxEerr = val_tpxE / sqrt(val_tpxRate)
 
-        print 'i={} itpx={} igei={} Ttpx={} Tgei={} tpxE={} GeiC={}'.format(i, itpx, igei, t_tpx, t_gei, val_tpxE, val_gei)
+        print('i={} itpx={} igei={} Ttpx={} Tgei={} tpxE={} GeiC={}'.format(i, itpx, igei, t_tpx, t_gei, val_tpxE, val_gei))
         
         if t_gei < t_tpx + Tgei:
             igei = igei+1
-            print '   ...shifting geiger index...'
+            print('   ...shifting geiger index...')
             continue
         if t_tpx + Ttpx < t_gei:
-            print '   ...shifting tpx index...'
+            print('   ...shifting tpx index...')
             itpx = itpx+1
             continue
-        print '   OK! Setting point {}'.format(ip2)
+        print('   OK! Setting point {}'.format(ip2))
 
         gr_tpxE_vs_gei.SetPoint(ip2, val_gei, val_tpxE)
         gr_tpxE_vs_gei.SetPointError(ip2, geiErr, tpxEerr)
@@ -335,8 +335,8 @@ def MainCall(flightTag, offset_geiger):
     leg.Draw()
 
     corr = gr_tpxE_vs_gei.GetCorrelationFactor()
-    print 'TimePix E vs Geiger points            : {}'.format(gr_tpxE_vs_gei.GetN(),)
-    print 'TimePix E vs Geiger counts correlation: {}'.format(corr,)
+    print('TimePix E vs Geiger points            : {}'.format(gr_tpxE_vs_gei.GetN(),))
+    print('TimePix E vs Geiger counts correlation: {}'.format(corr,))
     can.cd(3)
     text = TLatex(0.15, 0.88, '#rho = {:1.2f}'.format(corr))
     text.SetNDC()
@@ -344,8 +344,8 @@ def MainCall(flightTag, offset_geiger):
     stuff.append(text)
 
     corr = gr_tpxRate_vs_gei.GetCorrelationFactor()
-    print 'TimePix Rate vs Geiger points            : {}'.format(gr_tpxRate_vs_gei.GetN(),)
-    print 'TimePix Rate vs Geiger counts correlation: {}'.format(corr,)
+    print('TimePix Rate vs Geiger points            : {}'.format(gr_tpxRate_vs_gei.GetN(),))
+    print('TimePix Rate vs Geiger counts correlation: {}'.format(corr,))
 
     can.cd(4)
     text = TLatex(0.15, 0.88, '#rho = {:1.2f}'.format(corr))
@@ -422,14 +422,14 @@ def MergeGraphs(grs, tag = ''):
     ex = Double(0.)
     ey = Double(0.)
     for gr in grs:
-        for i in xrange(0, gr.GetN()):
+        for i in range(0, gr.GetN()):
             gr.GetPoint(i, x, y)
             ex = gr.GetErrorX(i)
             ey = gr.GetErrorY(i)
             Gr.SetPoint(ip, x, y)
             Gr.SetPointError(ip, ex, ey)
             ip = ip + 1
-    print 'Merged graph points: {}'.format(ip)
+    print('Merged graph points: {}'.format(ip))
     return Gr
 
 
@@ -518,7 +518,7 @@ def main(argv):
     Gr_tpxE_vs_gei = []
 
     for flightdata in FlightData:
-        print '*** Processing', flightdata
+        print('*** Processing', flightdata)
         flightTag = flightdata
         offset_geiger = FlightData[flightTag]
         gr_tpxRate_vs_gei, gr_tpxE_vs_gei = MainCall(flightTag, offset_geiger)

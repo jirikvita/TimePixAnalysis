@@ -18,7 +18,7 @@ fullpath = '%s/%s/' % (path,fdir)
 # make ROOT files from the txt:
 # comment line after HACK in case you've got these already
 for fname in os.popen('cd %s ; ls *.txt*???.txt' % (fullpath,) ).read().split():
-    print fname
+    print(fname)
     fullname = '%s%s' % (fullpath,fname)
     cmd = 'cd %s ; python ../../../ReadToRoot.py %s' % (fullpath,fname,)
     ### HACK!!! 
@@ -36,7 +36,7 @@ files = []
 terminate = -1
 nf = 0
 for fname in os.popen('cd %s ; ls *.root' % (fullpath,) ).read().split():
-    print fname
+    print(fname)
     fullname = '%s%s' % (fullpath,fname)
     rfile = TFile(fullname, 'read')
     hist = rfile.Get('histo')
@@ -61,11 +61,11 @@ for fname in os.popen('cd %s ; ls *.root' % (fullpath,) ).read().split():
 nmax = max(ngamma)+1
 nmin = min(ngamma)
 nbins = nmax - nmin
-print nbins,nmin,nmax,1.*(1.*nmax-nmin)/(1.*nbins)
+print(nbins,nmin,nmax,1.*(1.*nmax-nmin)/(1.*nbins))
 name = 'GammaCounts'
 title = 'Gamma Counts;n_{#gamma};frequency'
 pois = TH1D(name, title, nbins, nmin-0.5, nmax-0.5)
-print ngamma
+print(ngamma)
 for ng in ngamma:
     pois.Fill(ng)
 
