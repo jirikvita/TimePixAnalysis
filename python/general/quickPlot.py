@@ -4,6 +4,31 @@ import ROOT
 
 import sys, os
 
+#from dose_tools import *
+# timepix chip:
+# chip size [cm]
+d=1.4
+# chip height: [cm]!
+# timepix MX-10
+#h = 0.03
+# Advacam MiniPix
+h = 0.05
+
+# Volume:
+V = d*d*h
+# Silicon: g/cm^3
+rho = 2.3296 
+# mass in kg:
+mass = 0.001*V*rho
+elCh = 1.602e-19
+secInY = 31557600.
+
+# expects keV and seconds
+def GetDose(etot, time): #mGy/y
+    dose = etot*1e3/mass*elCh*1000.  # Jouls/kg = mGy!;-)
+    rate_perannum = dose / time*secInY
+    return rate_perannum
+
 from numpy import random
 # see $PYTHONPATH
 from mystyle import *
@@ -15,7 +40,6 @@ stuff = []
 
 # see $PYTHONPATH
 
-from dose_tools import *
 
 from mystyle import *
 
@@ -36,10 +60,25 @@ def main(argv):
     can = ROOT.TCanvas(cname, cname, 0, 0, 1100, 1000)
     h.SetStats(0)
     I = h.Integral()
-    time = 458*10
-    d = GetDose(I, time)
+
+    time = -1
     
-    h.SetTitle('E={:1.0f} MeV d={} mGy/Y;;;E [keV]'.format(I/1000., d))
+    # PrgGva20250310_10s
+    #time = 458*10
+
+    # WarsawaTokyoOct2024
+    #time = 241 * 30
+
+    # TokyoWarsawaOct2024
+    #time = 260*30
+    
+    d = GetDose(I, time)
+
+    if time > 0:
+        h.SetTitle('E={:1.0f} MeV d={:1.1f} mGy/Y;;;E [keV]'.format(I/1000., d))
+    else:
+        h.SetTitle('E={:1.0f} MeV;;;E [keV]'.format(I/1000.))
+                
     h.Draw('colz')
     ROOT.gPad.SetLogz(1)
     ROOT.gPad.SetRightMargin(0.15)
